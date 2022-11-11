@@ -1,30 +1,30 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import "./TaskFilter.css";
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import './TaskFilter.css'
 
 class TaskFilter extends Component {
   static defaultProps = {
     setFilter: () => {},
-  };
+  }
 
   static propTypes = {
     setFilter: PropTypes.func,
-  };
+  }
   render() {
-    const { setFilter } = this.props;
+    const { setFilter } = this.props
     return (
       <ul className="task-filer">
         <li>
-          <button onClick={() => setFilter("all")}>All</button>
+          <button onClick={() => setFilter('all')}>All</button>
         </li>
         <li>
-          <button onClick={() => setFilter("active")}>Active</button>
+          <button onClick={() => setFilter('active')}>Active</button>
         </li>
         <li>
-          <button onClick={() => setFilter("completed")}>Completed</button>
+          <button onClick={() => setFilter('completed')}>Completed</button>
         </li>
       </ul>
-    );
+    )
   }
 }
 
@@ -44,4 +44,4 @@ class TaskFilter extends Component {
 //   );
 // };
 
-export default TaskFilter;
+export default TaskFilter

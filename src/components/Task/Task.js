@@ -1,18 +1,18 @@
-import React, { Component } from "react";
-import { formatDistanceToNow } from "date-fns";
-import PropTypes from "prop-types";
-import "./Task.css";
+import React, { Component } from 'react'
+import { formatDistanceToNow } from 'date-fns'
+import PropTypes from 'prop-types'
+import './Task.css'
 
 class Task extends Component {
   static defaultProps = {
-    label: "",
+    label: '',
     important: false,
     done: false,
     readOnly: true,
     onToggleDone: () => {},
     onDeleted: () => {},
     date: new Date(),
-  };
+  }
 
   static propTypes = {
     label: PropTypes.string,
@@ -22,18 +22,18 @@ class Task extends Component {
     onToggleDone: PropTypes.func,
     onDeleted: PropTypes.func,
     date: PropTypes.instanceOf(Date),
-  };
+  }
 
   render() {
     const { label, important, done, readOnly, onToggleDone, onDeleted } =
-      this.props;
-    let classNames = "task__description";
+      this.props
+    let classNames = 'task__description'
     if (done) {
-      classNames += " done";
+      classNames += ' done'
     }
 
     if (important) {
-      classNames += " important";
+      classNames += ' important'
     }
 
     return (
@@ -66,8 +66,8 @@ class Task extends Component {
           ></button>
         </div>
       </li>
-    );
+    )
   }
 }
 
-export default Task;
+export default Task

@@ -1,33 +1,33 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import "./NewTaskForm.css";
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import './NewTaskForm.css'
 
 class NewTaskForm extends Component {
   static defaultProps = {
-    addItem: "",
-  };
+    addItem: '',
+  }
 
   static propTypes = {
     addItem: PropTypes.func,
-  };
+  }
 
   state = {
-    label: "",
-  };
+    label: '',
+  }
 
   onLabelChange = (e) => {
     this.setState({
       label: e.target.value,
-    });
-  };
+    })
+  }
 
   onSubmit = (e) => {
-    e.preventDefault();
-    this.props.addItem(this.state.label);
+    e.preventDefault()
+    this.props.addItem(this.state.label)
     this.setState({
-      label: "",
-    });
-  };
+      label: '',
+    })
+  }
 
   render() {
     return (
@@ -40,8 +40,8 @@ class NewTaskForm extends Component {
           autoFocus=""
         />
       </form>
-    );
+    )
   }
 }
 
-export default NewTaskForm;
+export default NewTaskForm
