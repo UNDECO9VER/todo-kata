@@ -6,7 +6,6 @@ import './TaskList.css'
 
 const TaskList = ({ todos, filter, onDeleted, onToggleDone }) => {
   const getVisibleTodos = (arr, filter) => {
-    // eslint-disable-next-line default-case
     switch (filter) {
     case 'all':
       return arr

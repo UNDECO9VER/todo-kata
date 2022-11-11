@@ -30,7 +30,6 @@ class App extends Component {
   deleteItem = (id) => {
     this.setState(({ todoData }) => {
       const index = todoData.findIndex((el) => el.id === id)
-      console.log(index)
       return {
         todoData: todoData.filter((el, ind) => index !== ind),
       }
@@ -66,7 +65,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.todoData)
     const taskCount = this.state.todoData.filter(
       (el) => el.done !== true
     ).length
