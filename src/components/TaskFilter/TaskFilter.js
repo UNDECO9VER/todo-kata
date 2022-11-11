@@ -15,13 +15,16 @@ class TaskFilter extends Component {
     return (
       <ul className="task-filer">
         <li>
-          <button onClick={() => setFilter('all')}>All</button>
+          <input id='all' type="radio" name='filter' onClick={() => setFilter('all')}/>
+          <label htmlFor="all" className="sidebar__label">All</label>
         </li>
         <li>
-          <button onClick={() => setFilter('active')}>Active</button>
+          <input id='active' type="radio" name='filter' onClick={() => setFilter('active')}/>
+          <label htmlFor="active" className="sidebar__label">Active</label>
         </li>
         <li>
-          <button onClick={() => setFilter('completed')}>Completed</button>
+          <input id='completed' type="radio" name='filter' onClick={() => setFilter('completed')}/>
+          <label htmlFor="completed" className="sidebar__label">Completed</label>
         </li>
       </ul>
     )
