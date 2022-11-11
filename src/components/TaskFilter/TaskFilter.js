@@ -15,7 +15,7 @@ class TaskFilter extends Component {
     return (
       <ul className="task-filer">
         <li>
-          <input id='all' type="radio" name='filter' onClick={() => setFilter('all')}/>
+          <input checked id='all' type="radio" name='filter' onClick={() => setFilter('all')}/>
           <label htmlFor="all" className="sidebar__label">All</label>
         </li>
         <li>
