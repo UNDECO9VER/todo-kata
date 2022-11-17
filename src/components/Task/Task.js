@@ -4,11 +4,14 @@ import PropTypes from 'prop-types'
 import './Task.css'
 
 class Task extends Component {
+  state = {
+    label: this.props.label,
+    isEdit: false
+  }
+
   static defaultProps = {
     label: '',
-    important: false,
     done: false,
-    readOnly: true,
     onToggleDone: () => {},
     onDeleted: () => {},
     date: new Date(),
@@ -16,29 +19,44 @@ class Task extends Component {
 
   static propTypes = {
     label: PropTypes.string,
-    important: PropTypes.bool,
     done: PropTypes.bool,
-    readOnly: PropTypes.bool,
     onToggleDone: PropTypes.func,
     onDeleted: PropTypes.func,
     date: PropTypes.instanceOf(Date),
   }
 
+  onLabelChange = (e) => {
+    this.setState({
+      label: e.target.value,
+    })
+  }
+
+  onSubmit = (e) => {
+    e.preventDefault()
+    this.props.editItem( this.props.id, this.state.label )
+    if(this.state.isEdit) this.setEdit()
+  }
+
+  setEdit = () => {
+    this.setState({isEdit:!this.state.isEdit})
+  }
+
   render() {
-    const { label, important, done, readOnly, onToggleDone, onDeleted } =
+    const { label, done, onToggleDone, onDeleted, id} =
       this.props
     let classNames = 'task__description'
-    if (done) {
-      classNames += ' done'
-    }
+    done ? classNames += ' done' : classNames 
+    let classTaskInput = 'task__edit'
+    let classTaskView = 'task__view'
 
-    if (important) {
-      classNames += ' important'
+    if (this.state.isEdit) {
+      classTaskInput += ' edit'
+      classTaskView += ' edit'
     }
 
     return (
       <li className="task">
-        <div className="task__view">
+        <div className={classTaskView}>
           <input
             onClick={onToggleDone}
             className="task__toggle"
@@ -46,25 +64,33 @@ class Task extends Component {
             defaultChecked={done}
           />
           <label>
-            <input
-              readOnly={readOnly}
-              value={label}
-              type="text"
-              className={classNames}
-            />
+            <span className={classNames}>
+              {label}
+            </span>
             <span className="task__created">
               {formatDistanceToNow(this.props.date)}
             </span>
           </label>
-          <button
-            onClick={this.onMark}
+          <label
+            onClick={this.setEdit}
             className="icon task__icon-edit"
-          ></button>
+            htmlFor={id}
+          ></label>
           <button
             onClick={onDeleted}
             className="icon task__icon-destroy"
           ></button>
         </div>
+        <form onSubmit={this.onSubmit}>
+          <input
+            id={id}
+            onBlur={this.onSubmit}
+            onChange={(e)=> this.onLabelChange(e)}
+            value={this.state.label}
+            type="text"
+            className={classTaskInput}
+          />
+        </form>
       </li>
     )
   }

@@ -3,19 +3,17 @@ import PropTypes from 'prop-types'
 
 import TaskFilter from '../TaskFilter/TaskFilter'
 import './Footer.css'
-const Footer = ({ setFilter, taskCount, deleteItem, todos }) => {
+const Footer = ({ setFilter, taskCount, deleteCompleted}) => {
   Footer.propTypes = {
     setFilter: PropTypes.func,
     taskCount: PropTypes.number,
-    deleteItem: PropTypes.func,
-    todos: PropTypes.arrayOf(PropTypes.object),
+    deleteCompleted: PropTypes.func,
   }
 
   Footer.defaultProps = {
     setFilter: () => {},
     taskCount: 0,
-    deleteItem: () => {},
-    todos: [],
+    deleteCompleted: () => {},
   }
 
   return (
@@ -23,13 +21,7 @@ const Footer = ({ setFilter, taskCount, deleteItem, todos }) => {
       <span className="todo-count">{taskCount} items left</span>
       <TaskFilter setFilter={setFilter} />
       <button
-        onClick={() => {
-          for (let i of todos) {
-            if (i.done) {
-              deleteItem(i.id)
-            }
-          }
-        }}
+        onClick={deleteCompleted}
         className="clear-completed"
       >
         Clear completed

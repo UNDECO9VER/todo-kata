@@ -11,7 +11,7 @@
 	cursor: default;
 }
 
-.task-filer li label {
+.task-filer li button {
 	display: inline-block;
 	color: inherit;
 	margin: 3px;
@@ -19,19 +19,13 @@
 	text-decoration: none;
 	border: 1px solid transparent;
 	border-radius: 3px;
-}
-.task-filer li input {
-	appearance: none;
-    position: absolute;
+	cursor: pointer;
 }
 
-.task-filer li input:checked + label {
+.task-filer li button:focus {
+	cursor: default;
 	border-color: rgba(175, 47, 47, 0.2);
 }
-.task-filer li input:hover + label {
-	border-color: rgba(175, 47, 47, 0.1);
-}
-
-.task-filer li label:not(.selected) {
-	cursor: pointer;
+.task-filer button:hover {
+	border-color: rgba(175, 47, 47, 0.4);
 }

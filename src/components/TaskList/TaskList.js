@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Task from '../Task/Task.js'
 import './TaskList.css'
 
-const TaskList = ({ todos, filter, onDeleted, onToggleDone }) => {
+const TaskList = ({ todos, filter, onDeleted, onToggleDone, editItem }) => {
   const getVisibleTodos = (arr, filter) => {
     switch (filter) {
     case 'all':
@@ -34,7 +34,11 @@ const TaskList = ({ todos, filter, onDeleted, onToggleDone }) => {
     <ul className="task-list">
       {getVisibleTodos(todos, filter).map((item) => {
         const { id, ...itemProps } = item
-        return <Task key={id} {...itemProps} onToggleDone={() => onToggleDone(id)} onDeleted={() => onDeleted(id)} />
+        return <Task key={id} id={id} 
+          onToggleDone={() => onToggleDone(id)} 
+          onDeleted={() => onDeleted(id)} 
+          editItem={editItem}
+          {...itemProps} />
       })}
     </ul>
   )
