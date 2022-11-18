@@ -33,8 +33,12 @@ class Task extends Component {
 
   onSubmit = (e) => {
     e.preventDefault()
-    this.props.editItem( this.props.id, this.state.label )
-    if(this.state.isEdit) this.setEdit()
+    if(this.state.label.trim() !== ''){
+      this.props.editItem( this.props.id, this.state.label.trim() )
+      if(this.state.isEdit) this.setEdit()
+    }else{
+      this.props.onDeleted(this.props.id)
+    }
   }
 
   setEdit = () => {
