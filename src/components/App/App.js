@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 import TaskList from '../TaskList/TaskList'
@@ -32,12 +32,8 @@ class App extends Component {
   editItem = (id, text) => {
     this.setState(({ todoData }) => {
       const index = todoData.findIndex((el) => el.id === id)
-      const oldItem = todoData[index]
-      const newArray = [...todoData]
-      const newItem = { ...oldItem, label: text }
-      newArray[index] = newItem
       return {
-        todoData: newArray,
+        todoData: todoData.map((el,ind)=> ind === index ? { ...el, label: text } : el),
       }
     })
   }
@@ -62,12 +58,8 @@ class App extends Component {
   onToggleDone = (id) => {
     this.setState(({ todoData }) => {
       const index = todoData.findIndex((el) => el.id === id)
-      const oldItem = todoData[index]
-      const newArray = [...todoData]
-      const newItem = { ...oldItem, done: !oldItem.done }
-      newArray[index] = newItem
       return {
-        todoData: newArray,
+        todoData: todoData.map((el,ind)=> ind === index ? { ...el, done: !el.done } : el),
       }
     })
   }

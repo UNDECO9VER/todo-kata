@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import PropTypes from 'prop-types'
 import './NewTaskForm.css'
 
@@ -23,10 +23,12 @@ class NewTaskForm extends Component {
 
   onSubmit = (e) => {
     e.preventDefault()
-    this.props.addItem(this.state.label)
-    this.setState({
-      label: '',
-    })
+    if(this.state.label.trim() !== ''){
+      this.props.addItem(this.state.label.trim())
+      this.setState({
+        label: '',
+      })
+    }
   }
 
   render() {
