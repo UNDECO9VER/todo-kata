@@ -24,7 +24,7 @@ class App extends Component {
   deleteItem = (id) => {
     this.setState(({ todoData }) => {
       return {
-        todoData: todoData.filter((el) => el.id !== id),
+        todoData: todoData.filter((el) => el.id !== id)
       }
     })
   }
@@ -33,24 +33,24 @@ class App extends Component {
     this.setState(({ todoData }) => {
       const index = todoData.findIndex((el) => el.id === id)
       return {
-        todoData: todoData.map((el,ind)=> ind === index ? { ...el, label: text } : el),
+        todoData: todoData.map((el,ind)=> ind === index ? { ...el, label: text } : el)
       }
     })
   }
   
   deleteCompleted = ()=>{
-    for (let i of this.state.todoData) {
-      if (i.done) {
-        this.deleteItem(i.id)
+    this.setState(({ todoData }) => {
+      return {
+        todoData: todoData.filter((el) => el.done === false)
       }
-    }
+    })
   }
   
   addItem = (text) => {
     const newItem = this.createItem(text)
     this.setState(({ todoData }) => {
       return {
-        todoData: [...todoData, newItem],
+        todoData: [...todoData, newItem]
       }
     })
   }

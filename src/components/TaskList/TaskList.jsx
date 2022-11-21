@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-import Task from '../Task/Task.js'
+import Task from '../Task/Task.jsx'
 import './TaskList.css'
 
 const TaskList = ({ todos, filter, onDeleted, onToggleDone, editItem }) => {

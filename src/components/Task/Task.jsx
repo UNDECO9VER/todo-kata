@@ -1,12 +1,14 @@
 import { Component } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import PropTypes from 'prop-types'
+import { v4 as uuidv4 } from 'uuid'
 import './Task.css'
 
 class Task extends Component {
   state = {
     label: this.props.label,
-    isEdit: false
+    isEdit: false,
+    isDoneId: uuidv4() 
   }
 
   static defaultProps = {
@@ -62,19 +64,20 @@ class Task extends Component {
       <li className="task">
         <div className={classTaskView}>
           <input
-            onClick={onToggleDone}
+            id={this.state.isDoneId}
+            onChange  ={onToggleDone}
             className="task__toggle"
             type="checkbox"
             defaultChecked={done}
           />
-          <label>
-            <span className={classNames}>
+          <div className='task__container'>
+            <label htmlFor={this.state.isDoneId} className={classNames}>
               {label}
-            </span>
+            </label>
             <span className="task__created">
               {formatDistanceToNow(this.props.date)}
             </span>
-          </label>
+          </div>
           <label
             onClick={this.setEdit}
             className="icon task__icon-edit"

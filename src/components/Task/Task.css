@@ -8,7 +8,7 @@
 .task:last-child {
 	border-bottom: none;
 }
-.task label:first-of-type{
+.task .task__container:first-of-type{
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -38,8 +38,8 @@
 
 .task__description{
     word-break: break-all;
-    width: 200px;
     font-size: 24px;
+	width: 100%;
 	display: block;
 	line-height: 1;
     border: none;
@@ -48,7 +48,7 @@
 	transition: color 0.4s;
 	font-weight: 400;
 	color: #4d4d4d;
-	cursor:initial;
+	cursor:pointer;
 }
 
 .task__created{
@@ -75,6 +75,7 @@
 
 .done{
     text-decoration: line-through;
+	color: #cdcdcd
 }
 
 
