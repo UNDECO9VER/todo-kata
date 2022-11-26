@@ -12,19 +12,50 @@ class App extends Component {
     filter: 'all',
   }
   
-  createItem = (label) => {
+  createItem = (label, time) => {
     return {
       id: uuidv4(),
       date: new Date(),
+      time,
       label,
       done: false,
+      timeOut: null
     }
   }
   
   deleteItem = (id) => {
+    this.stopTimer(id)
     this.setState(({ todoData }) => {
       return {
         todoData: todoData.filter((el) => el.id !== id)
+      }
+    })
+  }
+
+  startTimer = (id) => {
+    this.stopTimer(id)
+    this.setState(({todoData})=>{
+      const index = todoData.findIndex((el) => el.id === id)
+      return{
+        todoData: todoData.map((el,ind)=> ind === index ? { ...el, timeOut: setInterval(()=>{
+          this.setState(({ todoData }) => {
+            let time = todoData[index].time
+            if(todoData[index].time > 0){
+              return {
+                todoData: todoData.map((el,ind)=> ind === index ? { ...el, time: --time } : el)
+              }
+            }else this.stopTimer(id)
+          })
+        }, 1000) } : el)
+      }
+    })
+  }
+  
+  stopTimer = (id) => {
+    this.setState(({todoData})=>{
+      const index = todoData.findIndex((el) => el.id === id)
+      return{
+        todoData: todoData.map((el,ind)=> ind === index ? { ...el, timeOut: clearInterval(todoData[index].timeOut) } : el)
       }
     })
   }
@@ -46,8 +77,8 @@ class App extends Component {
     })
   }
   
-  addItem = (text) => {
-    const newItem = this.createItem(text)
+  addItem = (text, time) => {
+    const newItem = this.createItem(text, time)
     this.setState(({ todoData }) => {
       return {
         todoData: [...todoData, newItem]
@@ -85,6 +116,8 @@ class App extends Component {
             onDeleted={this.deleteItem}
             onToggleDone={this.onToggleDone}
             editItem={this.editItem}
+            startTimer={this.startTimer}
+            stopTimer={this.stopTimer}
           />
           <Footer
             setFilter={this.setFilter}

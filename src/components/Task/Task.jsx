@@ -47,8 +47,15 @@ class Task extends Component {
     this.setState({isEdit:!this.state.isEdit})
   }
 
+  numberToTime(num){
+    const minutes = Math.trunc(num / 60)
+    const seconds = num % 60
+    return (minutes < 10 ? `0${minutes}`: minutes)  
+    +':'+  (seconds < 10 ? `0${seconds}`: seconds)
+  }
+
   render() {
-    const { label, done, onToggleDone, onDeleted, id} =
+    const {time, label, done, onToggleDone, onDeleted, id, startTimer, stopTimer} =
       this.props
     let classNames = 'task__description'
     done ? classNames += ' done' : classNames 
@@ -74,6 +81,11 @@ class Task extends Component {
             <label htmlFor={this.state.isDoneId} className={classNames}>
               {label}
             </label>
+            <span className="task__timer">
+              <button onClick={startTimer} className="task__icon-play"></button>
+              <button onClick={stopTimer} className="task__icon-pause"></button>
+              <span>{this.numberToTime(time)}</span> 
+            </span>
             <span className="task__created">
               {formatDistanceToNow(this.props.date)}
             </span>

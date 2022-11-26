@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import Task from '../Task/Task.jsx'
 import './TaskList.css'
 
-const TaskList = ({ todos, filter, onDeleted, onToggleDone, editItem }) => {
+const TaskList = ({ todos, filter, onDeleted, onToggleDone, 
+  editItem, startTimer, stopTimer }) => {
   const getVisibleTodos = (arr, filter) => {
     switch (filter) {
     case 'all':
@@ -36,6 +37,8 @@ const TaskList = ({ todos, filter, onDeleted, onToggleDone, editItem }) => {
         return <Task key={id} id={id} 
           onToggleDone={() => onToggleDone(id)} 
           onDeleted={() => onDeleted(id)} 
+          startTimer={()=> startTimer(id)}
+          stopTimer={()=> stopTimer(id)}
           editItem={editItem}
           {...itemProps} />
       })}

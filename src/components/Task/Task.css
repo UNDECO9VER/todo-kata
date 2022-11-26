@@ -39,7 +39,8 @@
 .task__description{
     word-break: break-all;
     font-size: 24px;
-	width: 100%;
+	/* width: 100%; */
+	flex-grow: 1;
 	display: block;
 	line-height: 1;
     border: none;
@@ -55,6 +56,13 @@
     font-size: 13px;
     color: gray;
     white-space: nowrap;
+}
+
+.task__timer{
+	align-self: flex-end;
+	width: 100px;
+	font-size: 15px;
+    color: gray;
 }
 
 .icon{
@@ -87,6 +95,22 @@
 
 .task__icon-edit::after{
     content: '✎';
+}
+
+.task__icon-play{
+	cursor: pointer;
+}
+
+.task__icon-pause{
+	cursor: pointer;
+}
+
+.task__icon-play::after{
+	content: "▶";
+}
+
+.task__icon-pause::after{
+	content: "⏸";
 }
 
 .task__icon-destroy{
