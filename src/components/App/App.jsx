@@ -68,8 +68,17 @@ class App extends Component {
       }
     })
   }
+
+  stopCompleted(){
+    for(let i in this.state.todoData){
+      if(this.state.todoData[i].done){
+        this.stopTimer(i)
+      }
+    }
+  }
   
   deleteCompleted = ()=>{
+    this.stopCompleted()
     this.setState(({ todoData }) => {
       return {
         todoData: todoData.filter((el) => el.done === false)
