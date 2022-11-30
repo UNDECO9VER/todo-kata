@@ -18,13 +18,11 @@ class App extends Component {
       date: new Date(),
       time,
       label,
-      done: false,
-      timeOut: null
+      done: false
     }
   }
   
   deleteItem = (id) => {
-    this.stopTimer(id)
     this.setState(({ todoData }) => {
       return {
         todoData: todoData.filter((el) => el.id !== id)
@@ -32,28 +30,13 @@ class App extends Component {
     })
   }
 
-  startTimer = (id) => {
-    this.stopTimer(id)
-    this.setState(({todoData})=>{
+  editTime = (id, time) => {
+    this.setState(({ todoData }) => {
       const index = todoData.findIndex((el) => el.id === id)
-      return{
-        todoData: todoData.map((el,ind)=> ind === index ? { ...el, timeOut: setInterval(()=>{
-          this.setState(({ todoData }) => {
-            if(todoData[index].time > 0 && !todoData[index].done){
-              let time = todoData[index].time
-              return {
-                todoData: todoData.map((el,ind)=> ind === index ? { ...el, time: --time } : el)
-              }
-            }else this.stopTimer(id)
-          })
-        }, 1000) } : el)
+      return {
+        todoData: todoData.map((el,ind)=> ind === index ? { ...el, time: time } : el)
       }
     })
-  }
-  
-  stopTimer = (id) => {
-    const index = this.state.todoData.findIndex((el) => el.id === id)
-    clearInterval(this.state.todoData[index].timeOut)
   }
 
   editItem = (id, text) => {
@@ -83,7 +66,6 @@ class App extends Component {
   }
   
   onToggleDone = (id) => {
-    this.stopTimer(id)
     this.setState(({ todoData }) => {
       const index = todoData.findIndex((el) => el.id === id)
       return {
@@ -113,8 +95,7 @@ class App extends Component {
             onDeleted={this.deleteItem}
             onToggleDone={this.onToggleDone}
             editItem={this.editItem}
-            startTimer={this.startTimer}
-            stopTimer={this.stopTimer}
+            editTime={this.editTime}
           />
           <Footer
             setFilter={this.setFilter}

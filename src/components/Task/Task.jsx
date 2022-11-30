@@ -8,7 +8,8 @@ class Task extends Component {
   state = {
     label: this.props.label,
     isEdit: false,
-    isDoneId: uuidv4() 
+    isDoneId: uuidv4(),
+    timeOut: null
   }
 
   static defaultProps = {
@@ -43,6 +44,24 @@ class Task extends Component {
     }
   }
 
+  startTimer = () =>{
+    this.stopTimer()
+    this.setState(()=>{
+      return{
+        timeOut: setInterval(()=>{
+          let time = this.props.time
+          if (time > 0 && !this.props.done) {
+            this.props.editTime(this.props.id, --time)
+          }else this.stopTimer()
+        }, 1000)
+      }
+    })
+  }
+
+  stopTimer = () => {
+    clearInterval(this.state.timeOut)
+  }
+
   setEdit = () => {
     this.setState({isEdit:!this.state.isEdit})
   }
@@ -54,8 +73,12 @@ class Task extends Component {
     +':'+  (seconds < 10 ? `0${seconds}`: seconds)
   }
 
+  componentWillUnmount(){
+    this.stopTimer()
+  }
+
   render() {
-    const {time, label, done, onToggleDone, onDeleted, id, startTimer, stopTimer} =
+    const {time, label, done, onToggleDone, onDeleted, id} =
       this.props
     let classNames = 'task__description'
     done ? classNames += ' done' : classNames 
@@ -82,8 +105,8 @@ class Task extends Component {
               {label}
             </label>
             <span className="task__timer">
-              <button onClick={startTimer} className="task__icon-play"></button>
-              <button onClick={stopTimer} className="task__icon-pause"></button>
+              <button onClick={this.startTimer} className="task__icon-play"></button>
+              <button onClick={this.stopTimer} className="task__icon-pause"></button>
               <span>{this.numberToTime(time)}</span> 
             </span>
             <span className="task__created">

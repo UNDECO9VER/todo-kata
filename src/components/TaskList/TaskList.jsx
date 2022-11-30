@@ -4,7 +4,7 @@ import Task from '../Task/Task.jsx'
 import './TaskList.css'
 
 const TaskList = ({ todos, filter, onDeleted, onToggleDone, 
-  editItem, startTimer, stopTimer }) => {
+  editItem, editTime }) => {
   const getVisibleTodos = (arr, filter) => {
     switch (filter) {
     case 'all':
@@ -36,10 +36,9 @@ const TaskList = ({ todos, filter, onDeleted, onToggleDone,
         const { id, ...itemProps } = item
         return <Task key={id} id={id} 
           onToggleDone={() => onToggleDone(id)} 
-          onDeleted={() => onDeleted(id)} 
-          startTimer={()=> startTimer(id)}
-          stopTimer={()=> stopTimer(id)}
+          onDeleted={() => onDeleted(id)}
           editItem={editItem}
+          editTime={editTime}
           {...itemProps} />
       })}
     </ul>
