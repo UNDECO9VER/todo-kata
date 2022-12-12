@@ -1,103 +1,77 @@
-import { Component } from 'react'
+import { useState , useEffect } from 'react'
 import PropTypes from 'prop-types'
-// import { format, parseISO } from 'date-fns'
 import './NewTaskForm.css'
 
-class NewTaskForm extends Component {
-  static defaultProps = {
+
+const NewTaskForm = ({addItem}) => {
+  NewTaskForm.defaultProps = {
     addItem: '',
   }
 
-  static propTypes = {
+  NewTaskForm.propTypes = {
     addItem: PropTypes.func,
   }
 
-  state = {
-    label: '',
-    minutes: '',
-    seconds: '',
-    time: 0
+  const [label, setLabel] = useState('')
+  const [minutes, setMinutes] = useState('')
+  const [seconds, setSeconds] = useState('')
+  const [time, setTime] = useState(0)
+
+  const calcTime = () =>{
+    const localMinutes = Number(minutes) ? Number(minutes) : 0
+    const localSeconds = Number(seconds) ? Number(seconds) : 0
+    
+    return Number(localMinutes) * 60 + Number(localSeconds)
+    
   }
 
-  setTime(){
-    const minutes = Number(this.state.minutes) ? Number(this.state.minutes) : 0
-    const seconds = Number(this.state.seconds) ? Number(this.state.seconds) : 0
-    this.setState({
-      time: Number(minutes) * 60 + Number(seconds)
-    })
-  }
+  useEffect(()=>{
+    setTime(calcTime())
+  },[minutes, seconds])
 
-  onLabelChange = (e) => {
-    this.setState({
-      label: e.target.value,
-    })
-  }
-
-  onMinutesChange = (e) => {
-    this.setState({
-      minutes: e.target.value,
-    })
-  }
-
-  componentDidUpdate(prevP, prevS){
-    if (prevS.minutes !== this.state.minutes || prevS.seconds !== this.state.seconds) {
-      this.setTime()
-    }
-  }
-
-  onSecondsChange = (e) => {
-    this.setState({
-      seconds: e.target.value,
-    })
-  }
-
-  onSubmit = (e) => {
+  const onSubmit = (e) => {
     e.preventDefault()
-    if(this.state.label.trim() !== ''){
-      this.props.addItem(this.state.label.trim(), this.state.time )
-      this.setState({
-        label: '',
-        minutes: '',
-        seconds: ''
-      })
+    if(label.trim() !== ''){
+      addItem(label.trim(), time )
+      setLabel('')
+      setMinutes('')
+      setSeconds('')
     }
   }
 
-  render() {
-    return (
-      <form className='new-task-form' onSubmit={this.onSubmit}>
-        <input
-          required
-          onChange={this.onLabelChange}
-          className="new-task-form__input"
-          placeholder="What needs to be done?"
-          value={this.state.label}
-        />
-        <input
-          min={0}
-          max={60}
-          type='number'
-          onChange={this.onMinutesChange}
-          className="new-task-form__input"
-          placeholder="Min"
-          value={this.state.minutes}
-        />
-        <input
-          min={0}
-          max={60}
-          type='number'
-          onChange={this.onSecondsChange}
-          className="new-task-form__input"
-          placeholder="Sec"
-          value={this.state.seconds}
-        />
-        <input
-          className='new-task-form__submit'
-          type='submit'
-        />
-      </form>
-    )
-  }
+  return (
+    <form className='new-task-form' onSubmit={onSubmit}>
+      <input
+        required
+        onChange={(e) => setLabel(e.target.value)}
+        className="new-task-form__input"
+        placeholder="What needs to be done?"
+        value={label}
+      />
+      <input
+        min={0}
+        max={60}
+        type='number'
+        onChange={(e) => setMinutes(e.target.value)}
+        className="new-task-form__input"
+        placeholder="Min"
+        value={minutes}
+      />
+      <input
+        min={0}
+        max={60}
+        type='number'
+        onChange={(e) => setSeconds(e.target.value)}
+        className="new-task-form__input"
+        placeholder="Sec"
+        value={seconds}
+      />
+      <input
+        className='new-task-form__submit'
+        type='submit'
+      />
+    </form>
+  )
 }
 
 export default NewTaskForm
