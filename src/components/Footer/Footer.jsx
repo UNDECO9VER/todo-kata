@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 
 import TaskFilter from '../TaskFilter/TaskFilter'
 import './Footer.css'
+
 const Footer = ({ setFilter, taskCount, deleteCompleted}) => {
   Footer.propTypes = {
     setFilter: PropTypes.func,

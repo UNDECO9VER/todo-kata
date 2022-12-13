@@ -1,4 +1,4 @@
-import { Component } from 'react'
+import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 import TaskList from '../TaskList/TaskList'
@@ -6,13 +6,13 @@ import NewTaskForm from '../NewTaskForm/NewTaskForm'
 import Footer from '../Footer/Footer'
 import './App.css'
 
-class App extends Component {
-  state = {
-    todoData: [],
-    filter: 'all',
-  }
+const App = () => {
+
+  const [todoData, setTodoData] = useState([])
+  const [filter, setFilter] = useState('all')
+
   
-  createItem = (label, time) => {
+  const createItem = (label, time) => {
     return {
       id: uuidv4(),
       date: new Date(),
@@ -22,92 +22,60 @@ class App extends Component {
     }
   }
   
-  deleteItem = (id) => {
-    this.setState(({ todoData }) => {
-      return {
-        todoData: todoData.filter((el) => el.id !== id)
-      }
-    })
+  const deleteItem = (id) => {
+    setTodoData((data)=> data.filter((el) => el.id !== id))
   }
 
-  editTime = (id, time) => {
-    this.setState(({ todoData }) => {
-      const index = todoData.findIndex((el) => el.id === id)
-      return {
-        todoData: todoData.map((el,ind)=> ind === index ? { ...el, time: time } : el)
-      }
-    })
+  const editTime = (id, time) => {
+    setTodoData((data)=> data.map((el)=> el.id === id ? { ...el, time: time } : el))
   }
 
-  editItem = (id, text) => {
-    this.setState(({ todoData }) => {
-      const index = todoData.findIndex((el) => el.id === id)
-      return {
-        todoData: todoData.map((el,ind)=> ind === index ? { ...el, label: text } : el)
-      }
-    })
+  const editItem = (id, text) => {
+    setTodoData((data)=> data.map((el)=> el.id === id ? { ...el, label: text } : el))
   }
  
-  deleteCompleted = ()=>{
-    this.setState(({ todoData }) => {
-      return {
-        todoData: todoData.filter((el) => el.done === false)
-      }
-    })
+  const deleteCompleted = ()=>{
+    setTodoData((data)=> data.filter((el) => el.done === false))
   }
   
-  addItem = (text, time) => {
-    const newItem = this.createItem(text, time)
-    this.setState(({ todoData }) => {
-      return {
-        todoData: [...todoData, newItem]
-      }
-    })
+  const addItem = (text, time) => {
+    setTodoData((data)=> [...data, createItem(text, time)])
   }
   
-  onToggleDone = (id) => {
-    this.setState(({ todoData }) => {
-      const index = todoData.findIndex((el) => el.id === id)
-      return {
-        todoData: todoData.map((el,ind)=> ind === index ? { ...el, done: !el.done } : el),
-      }
-    })
+  const onToggleDone = (id) => {
+    setTodoData((data)=> data.map((el)=> el.id === id ? { ...el, done: !el.done } : el))
   }
   
-  setFilter = (filter) => {
-    this.setState({
-      filter: filter,
-    })
+  const setTodoFilter = (filter) => {
+    setFilter(filter)
   }
-  
-  render() {
-    const taskCount = this.state.todoData.filter(
-      (el) => el.done !== true
-    ).length
-    return (
-      <div>
-        <h1>todos</h1>
-        <section className='todoapp'>
-          <NewTaskForm addItem={this.addItem} />
-          <TaskList
-            todos={this.state.todoData}
-            filter={this.state.filter}
-            onDeleted={this.deleteItem}
-            onToggleDone={this.onToggleDone}
-            editItem={this.editItem}
-            editTime={this.editTime}
-          />
-          <Footer
-            setFilter={this.setFilter}
-            taskCount={taskCount}
-            deleteItem={this.deleteItem}
-            deleteCompleted={this.deleteCompleted}
-            todos={this.state.todoData}
-          />
-        </section>
-      </div>
-    )
-  }
+
+  const taskCount = todoData.filter(
+    (el) => el.done !== true
+  ).length
+  return (
+    <div>
+      <h1>todos</h1>
+      <section className='todoapp'>
+        <NewTaskForm addItem={addItem} />
+        <TaskList
+          todos={todoData}
+          filter={filter}
+          onDeleted={deleteItem}
+          onToggleDone={onToggleDone}
+          editItem={editItem}
+          editTime={editTime}
+        />
+        <Footer
+          setFilter={setTodoFilter}
+          taskCount={taskCount}
+          deleteItem={deleteItem}
+          deleteCompleted={deleteCompleted}
+          todos={todoData}
+        />
+      </section>
+    </div>
+  )
 }
 
 export default App

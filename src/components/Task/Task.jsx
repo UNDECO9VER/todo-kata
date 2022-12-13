@@ -9,7 +9,8 @@ const Task = ({time, label, done, onToggleDone, onDeleted, id, editItem, editTim
   const[labelLocal, setLabelLocal] = useState(label)
   const[isEdit, setIsEdit] = useState(false)
   const[isDoneId] = useState(uuidv4())
-  let timer = null
+  const[, setTimer] = useState(null)
+  // let timer = null
 
   Task.defaultProps = {
     label: '',
@@ -38,12 +39,12 @@ const Task = ({time, label, done, onToggleDone, onDeleted, id, editItem, editTim
   }
 
   const stopTimer = () => {
-    clearInterval(timer)
+    setTimer((tm)=> clearTimeout(tm))
   }
 
   const startTimer = () =>{
     stopTimer()
-    timer =
+    setTimer( 
       setInterval(()=>{
         if (time > 0 && !done) {
           editTime(id, --time)
@@ -51,7 +52,7 @@ const Task = ({time, label, done, onToggleDone, onDeleted, id, editItem, editTim
           stopTimer()
         } 
       }, 1000)
-    
+    )
   }
 
   const setEdit = () => {
@@ -65,11 +66,14 @@ const Task = ({time, label, done, onToggleDone, onDeleted, id, editItem, editTim
     +':'+  (seconds < 10 ? `0${seconds}`: seconds)
   }
 
+  const taskDone=()=>{
+    stopTimer()
+    onToggleDone()
+  }
+
   useEffect(() => {
-    return () => {
-      stopTimer()
-    }
-  }, [])
+    return () => stopTimer()
+  },[])
   
 
   let classNames = 'task__description'
@@ -87,7 +91,7 @@ const Task = ({time, label, done, onToggleDone, onDeleted, id, editItem, editTim
       <div className={classTaskView}>
         <input
           id={isDoneId}
-          onChange  ={onToggleDone}
+          onChange  = {taskDone}
           className="task__toggle"
           type="checkbox"
           defaultChecked={done}
